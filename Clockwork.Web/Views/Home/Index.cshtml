@@ -1,0 +1,73 @@
+﻿<script>
+    function UserAction() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                var obj = JSON.parse(this.responseText);
+
+                //document.getElementById("output").innerHTML = this.responseText;
+
+                document.getElementById("id").innerHTML = obj.currentTimeQueryId
+
+                document.getElementById("ip").innerHTML = obj.clientIp
+
+                document.getElementById("date").innerHTML = obj.time.substring(0, 10)
+
+                document.getElementById("time").innerHTML = obj.time.substring(11, 19)
+
+                document.getElementById("utc").innerHTML = obj.utcTime.substring(11, 19)
+            }
+        };
+        xhttp.open("GET", "http://localhost:57703/api/currenttime", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+
+    }
+</script>
+<br />
+<div class="container col-md-6">
+    <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
+
+    <button type="submit" class="btn btn-lg btn-success" onclick="UserAction()">
+        Get the time
+    </button>
+    <br />
+    <br />
+    @*<p id="output"></p>*@
+
+    <div class="table table-responsive">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    <strong>ID</strong>
+                </td>
+                <td id="id"></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>IP</strong>
+                </td>
+                <td id="ip"></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Date</strong>
+                </td>
+                <td id="date"></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Time</strong>
+                </td>
+                <td id="time"></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>UTC</strong>
+                </td>
+                <td id="utc"></td>
+            </tr>
+        </table>
+    </div>
+</div>
