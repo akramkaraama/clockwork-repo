@@ -11,8 +11,8 @@ using System;
 namespace Clockwork.API.Migrations
 {
     [DbContext(typeof(ClockworkContext))]
-    [Migration("20180814014300_test")]
-    partial class test
+    [Migration("20180815053911_DataMigration")]
+    partial class DataMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

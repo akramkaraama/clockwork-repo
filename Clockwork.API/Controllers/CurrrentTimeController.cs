@@ -1,12 +1,16 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Clockwork.API.Controllers
 {
     [Route("api/[controller]")]
     public class CurrentTimeController : Controller
     {
+        private ClockworkContext clockwork = new ClockworkContext();
+
         // GET api/currenttime
         [HttpGet]
         public IActionResult Get()
@@ -35,7 +39,7 @@ namespace Clockwork.API.Controllers
                 }
             }
 
-            return Json(returnVal);
+            return Ok(returnVal);
         }
     }
 }

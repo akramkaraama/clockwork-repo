@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Clockwork.API.Migrations
 {
-    public partial class test : Migration
+    public partial class DataMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

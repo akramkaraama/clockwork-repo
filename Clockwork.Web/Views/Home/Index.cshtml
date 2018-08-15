@@ -1,5 +1,15 @@
 ﻿<script>
-    function UserAction() {
+
+    // This function will respond to the dropdownlist of all the timezones
+    // to display data of the selected entry from the dropdownlist 
+    // and it will write to the first table
+    function GetOtherTimeZone(value) {
+        GetTheTimeHere();
+    }
+
+    // This function will respond to the 'Get the Time-Zone Here' button
+    // to display data of the current entry in the first table
+    function GetTheTimeHere() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -22,52 +32,110 @@
         xhttp.open("GET", "http://localhost:57703/api/currenttime", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
+    }
 
+    // This function will respond to the 'Get Data List' button
+    // to display all the previously inserted data in the second table
+    function GetDatabaseList() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                var result = ' <tr><th><strong>ID</strong></th> ' + 
+                    ' <th><strong>IP</strong></th> ' +
+                    ' <th><strong>Date</strong></th> ' +
+                    ' <th><strong>Time</strong></th> ' +
+                    ' <th><strong>UTC</strong></th></tr> ';
+
+                var obj = JSON.parse(this.responseText);
+                for (var i = 0; i < obj.length; i++) {
+
+                    result += '<tr><td >' + obj[i].currentTimeQueryId + '</td>' +
+                        '<td >' + obj[i].clientIp + '</td>' +
+                        '<td >' + obj[i].time.substring(0, 10) + '</td>' +
+                        '<td >' + obj[i].time.substring(11, 19) + '</td>' +
+                        '<td >' + obj[i].utcTime.substring(11, 19) + '</td></tr>';
+                }
+
+                //var test = result.trim(null);
+                document.getElementById("db").innerHTML = result;
+            }
+        };
+        xhttp.open("GET", "http://localhost:57703/api/ListPreviousRequests", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
     }
 </script>
+
+@using System.Collections.ObjectModel;
+@model  ReadOnlyCollection<TimeZoneInfo>
 <br />
-<div class="container col-md-6">
+<div class="container col-md-12">
     <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success" onclick="GetTheTimeHere()">
+                        Get the Time-Zone Here
+                    </button>
+                </div>
+            </div>
+            <br />
 
-    <button type="submit" class="btn btn-lg btn-success" onclick="UserAction()">
-        Get the time
-    </button>
-    <br />
-    <br />
-    @*<p id="output"></p>*@
+            @*<p id="output"></p>*@
 
-    <div class="table table-responsive">
-        <table class="table table-bordered table-striped">
-            <tr>
-                <td>
-                    <strong>ID</strong>
-                </td>
-                <td id="id"></td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>IP</strong>
-                </td>
-                <td id="ip"></td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Date</strong>
-                </td>
-                <td id="date"></td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Time</strong>
-                </td>
-                <td id="time"></td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>UTC</strong>
-                </td>
-                <td id="utc"></td>
-            </tr>
-        </table>
+            <div class="table table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th><strong>ID</strong></th>
+                            <th><strong>IP</strong></th>
+                            <th><strong>Date</strong></th>
+                            <th><strong>Time</strong></th>
+                            <th><strong>UTC</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="id"></td>
+                            <td id="ip"></td>
+                            <td id="date"></td>
+                            <td id="time"></td>
+                            <td id="utc"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <strong>Get the Time-Zone in: </strong>
+                    <select class="col-md-8" id="zones" onchange="GetOtherTimeZone(this.value)">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.Id">@item.DisplayName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success" onclick="GetDatabaseList()">
+                    Get Data Lists
+                </button>
+            </div>
+            <br />
+
+            <div class="col-md-12">
+                <div class="table table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <tbody id="db"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
