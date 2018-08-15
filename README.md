@@ -1,4 +1,12 @@
-# README #
+# README # (Assignment Completed by Mohamed Farah on Commit #2)
+
+This is an assignment part of Mohamed's interview process to AWH.
+
+If you want the Orignal Assignment(Before I have worked on it), go to [ClockWork of AWH in BitBucket](https://bitbucket.org/awhcode/clockwork-repo/overview)
+
+***********************************************************************************************************
+***********************************************************************************************************
+***********************************************************************************************************
 
 Welcome to the AWH interview exercise.
 
@@ -29,14 +37,9 @@ Once you have a running project that works as intended, you will be asked to mak
 * Check CORS access.
 * Since this is a code first project you may need to run migrations to generate the database.
 
-
 ### Contribution guidelines ###
 
-* Only AWH staff should be push changes to this repo
-
 ### Who do I talk to? ###
-
-* For this repo, questions on direction, scope, or intent can be directed to robin.walters@awh.net
 
 ### Additional Resources ###
 [Getting Started with EF Core on .NET Core Console App with a New database](https://docs.microsoft.com/en-us/ef/core/get-started/netcore/new-db-sqlite)
